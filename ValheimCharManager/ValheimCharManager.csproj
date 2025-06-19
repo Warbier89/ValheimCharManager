@@ -82,7 +82,10 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="icons\11203_arrow_down_green_linked_icon.png" />
+    <Content Include="icons\11286_folder_search_icon.png" />
     <Content Include="icons\11332_edit_female_user_icon.png" />
+    <Content Include="icons\11333_female_go_user_icon.png" />
+    <Content Include="icons\11355_add_male_user_icon2648x2648.png" />
     <Content Include="icons\11398_search_users_icon.png" />
     <Content Include="icons\valheim_icon.ico" />
   </ItemGroup>

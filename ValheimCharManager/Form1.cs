@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ValheimCharManager.Properties;
 
 namespace ValheimCharManager
 {
@@ -24,15 +26,14 @@ namespace ValheimCharManager
             // Pfadkonstruktion einmalig beim Start der Form
             string localLowPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"..\LocalLow");
             valheimCharFolderPath = Path.Combine(localLowPath, @"IronGate\Valheim\characters_local\");
+            valheimBuildsFolderPath = Path.Combine(valheimCharFolderPath, "builds"); // Pfad zum Builds-Unterordner zusammensetzen
 
-            // NEU: Pfad zum Builds-Unterordner zusammensetzen
-            valheimBuildsFolderPath = Path.Combine(valheimCharFolderPath, "builds");
-
-            LoadCharactersIntoComboBox();
+            LoadCharactersIntoMainComboBox(); // Diese Methode füllt cb_mainChar
+            UpdateBuildNameTextBox();     // Sofortige Befüllung der TextBox beim Start
             LoadBuildsIntoBuildComboBox();
         }
 
-        private void LoadCharactersIntoComboBox()
+        private void LoadCharactersIntoMainComboBox()
         {
             if (Directory.Exists(valheimCharFolderPath))
             {
@@ -147,13 +148,13 @@ namespace ValheimCharManager
             if (cb_mainChar.SelectedItem == null)
             {
                 MessageBox.Show("Bitte wählen Sie einen Hauptcharakter in der oberen Liste aus.", "Fehlende Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Methode beenden
+                return;
             }
 
             if (cb_chosseBuild.SelectedItem == null)
             {
                 MessageBox.Show("Bitte wählen Sie einen Build-Charakter in der unteren Liste aus.", "Fehlende Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Methode beenden
+                return;
             }
 
             // 2. Dateinamen abrufen (OHNE ENDUNG, da sie noch angehängt wird)
@@ -161,11 +162,8 @@ namespace ValheimCharManager
             string buildCharNameWithoutExtension = cb_chosseBuild.SelectedItem.ToString();
 
             // 3. Vollständige Pfade erstellen (MIT ENDUNG)
-            // Die Endung ".fch" muss immer angehängt werden
             string mainCharFilePath = Path.Combine(valheimCharFolderPath, mainCharNameWithoutExtension + ".fch");
             string buildCharSourcePath = Path.Combine(valheimBuildsFolderPath, buildCharNameWithoutExtension + ".fch");
-
-            // Das Ziel für die umbenannte Build-Datei ist der Hauptordner mit dem Namen des Hauptcharakters
             string buildCharTargetPath = Path.Combine(valheimCharFolderPath, mainCharNameWithoutExtension + ".fch");
 
             // Überprüfung, ob die Quelldateien existieren (sehr wichtig!)
@@ -180,37 +178,22 @@ namespace ValheimCharManager
                 return;
             }
 
-            // 4. Sicherung/Bestätigung vom Benutzer
-            DialogResult confirmResult = MessageBox.Show(
-                $"Möchten Sie wirklich den Hauptcharakter '{mainCharNameWithoutExtension}.fch' durch den Build '{buildCharNameWithoutExtension}.fch' ersetzen?\n\n" +
-                "WARNUNG: Dies überschreibt Ihre aktuelle Charakterdatei unwiderruflich!",
-                "Bestätigung",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Warning);
-
-            if (confirmResult == DialogResult.Cancel)
-            {
-                MessageBox.Show("Vorgang abgebrochen.", "Abgebrochen", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return; // Methode beenden, wenn der Benutzer abbricht
-            }
+            // ---- HIER WURDE DIE BESTÄTIGUNGSABFRAGE ENTFERNT ----
+            // Vorheriger Code war:
+            // DialogResult confirmResult = MessageBox.Show(...);
+            // if (confirmResult == DialogResult.Cancel) { ... return; }
+            // ----------------------------------------------------
 
             try
             {
                 // 5. Hauptcharakterdatei löschen
-                // Es ist wichtig, die existierende Datei zu löschen, damit File.Copy nicht fehlschlägt,
-                // wenn der Zielname bereits existiert und keine Überschreibung erlaubt ist (was wir nicht wollen, da wir sie explizit ersetzen).
-                if (File.Exists(mainCharFilePath)) // Doppelte Prüfung schadet nicht
+                if (File.Exists(mainCharFilePath))
                 {
                     File.Delete(mainCharFilePath);
-                    // Optional: Meldung für Debugging
-                    // MessageBox.Show($"Datei '{mainCharFilePath}' gelöscht.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 // 6. Build-Charakter kopieren und umbenennen
-                // File.Copy(Quelle, Ziel, überschreiben?)
-                // Da wir das Ziel (mainCharFilePath) gerade gelöscht haben, brauchen wir "true" nicht unbedingt,
-                // aber es ist gute Praxis, wenn man sich nicht 100% sicher ist, dass das Ziel nicht existiert.
-                File.Copy(buildCharSourcePath, buildCharTargetPath, true); // true = Ziel überschreiben, falls es doch existiert
+                File.Copy(buildCharSourcePath, buildCharTargetPath, true);
 
                 MessageBox.Show($"Der Build '{buildCharNameWithoutExtension}.fch' wurde erfolgreich als '{mainCharNameWithoutExtension}.fch' aktiviert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -220,14 +203,154 @@ namespace ValheimCharManager
             }
             finally
             {
-                // 7. ComboBoxen aktualisieren, egal ob erfolgreich oder nicht
-                // Die Build-ComboBox muss nicht zwingend aktualisiert werden, da sich ihr Inhalt nicht ändert.
-                // Aber die Main-Char-ComboBox könnte sich indirekt ändern, falls wir mal
-                // auch Builds in den Main-Ordner kopieren würden, die keinen Unterstrich haben (was hier nicht der Fall ist).
-                // Eine vollständige Aktualisierung ist am sichersten.
-                LoadCharactersIntoComboBox();
+                // 7. ComboBoxen aktualisieren
+                LoadCharactersIntoMainComboBox();
                 LoadBuildsIntoBuildComboBox();
             }
+        }
+
+        private void cb_mainChar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateBuildNameTextBox(); // Rufe eine Hilfsmethode auf
+        }
+
+        //Hilfsmethode zum Aktualisieren der TextBox
+        private void UpdateBuildNameTextBox()
+        {
+            if (cb_mainChar.SelectedItem != null)
+            {
+                string mainCharNameWithoutExtension = cb_mainChar.SelectedItem.ToString();
+                tb_buildName.Text = mainCharNameWithoutExtension + "_";
+
+                // Optional: Cursor ans Ende der vorgeschriebenen Zeichen setzen
+                tb_buildName.SelectionStart = tb_buildName.Text.Length;
+                tb_buildName.SelectionLength = 0;
+                tb_buildName.Focus(); // Fokus auf die Textbox legen
+            }
+            else
+            {
+                tb_buildName.Clear(); // Textbox leeren, wenn nichts ausgewählt ist
+            }
+        }
+
+        // Event-Handler für den "Build speichern" Button
+        private void bt_saveBuild_Click(object sender, EventArgs e)
+        {
+            // 1. Validierung: Hauptcharakter ausgewählt?
+            if (cb_mainChar.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte wählen Sie einen Hauptcharakter in der oberen Liste aus, dessen Build Sie speichern möchten.", "Fehlende Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Validierung: Build-Name in der Textbox vorhanden und gültig?
+            string newBuildNameWithoutExtension = tb_buildName.Text.Trim(); // .Trim() entfernt Leerzeichen am Anfang/Ende
+
+            if (string.IsNullOrWhiteSpace(newBuildNameWithoutExtension))
+            {
+                MessageBox.Show("Bitte geben Sie einen Namen für den neuen Build ein.", "Fehlende Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Zusätzliche Validierung für gültige Dateinamen (keine ungültigen Zeichen)
+            char[] invalidChars = Path.GetInvalidFileNameChars();
+            if (newBuildNameWithoutExtension.Any(c => invalidChars.Contains(c)))
+            {
+                MessageBox.Show($"Der Build-Name enthält ungültige Zeichen. Bitte verwenden Sie keine der folgenden Zeichen: {string.Join("", invalidChars)}", "Ungültiger Dateiname", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 3. Pfade festlegen
+            string mainCharNameWithoutExtension = cb_mainChar.SelectedItem.ToString();
+            string sourceFilePath = Path.Combine(valheimCharFolderPath, mainCharNameWithoutExtension + ".fch"); // Die zu kopierende Datei
+
+            // Der Zielpfad für den neuen Build
+            string destinationFilePath = Path.Combine(valheimBuildsFolderPath, newBuildNameWithoutExtension + ".fch");
+
+            // 4. Prüfen, ob die Quelldatei existiert
+            if (!File.Exists(sourceFilePath))
+            {
+                MessageBox.Show($"Die Hauptcharakter-Datei '{mainCharNameWithoutExtension}.fch' wurde im Hauptverzeichnis nicht gefunden. Speichern abgebrochen.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 5. Prüfen, ob der Build-Ordner existiert (und ggf. vorher anbieten zu erstellen)
+            // Die LoadBuildsIntoBuildComboBox() kümmert sich schon darum, den Ordner anzulegen.
+            // Hier prüfen wir nur, ob er tatsächlich da ist, bevor wir versuchen zu speichern.
+            if (!Directory.Exists(valheimBuildsFolderPath))
+            {
+                MessageBox.Show("Der 'builds'-Ordner existiert nicht. Bitte erstellen Sie ihn zuerst (z.B. indem Sie die Anwendung neu starten und die Abfrage bestätigen).", "Ordner fehlt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 6. Bestätigung, falls der Build-Name bereits existiert (Überschreibungsschutz)
+            if (File.Exists(destinationFilePath))
+            {
+                DialogResult overwriteResult = MessageBox.Show(
+                    $"Der Build mit dem Namen '{newBuildNameWithoutExtension}.fch' existiert bereits im 'builds'-Ordner.\nMöchten Sie ihn überschreiben?",
+                    "Build überschreiben?",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (overwriteResult == DialogResult.No)
+                {
+                    MessageBox.Show("Speichern abgebrochen.", "Abgebrochen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+            }
+
+            // 7. Datei kopieren
+            try
+            {
+                // File.Copy(Quelle, Ziel, überschreiben?)
+                File.Copy(sourceFilePath, destinationFilePath, true); // true = Überschreiben erlauben
+
+                MessageBox.Show($"Der Build '{newBuildNameWithoutExtension}.fch' wurde erfolgreich im Ordner 'builds' gespeichert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ein Fehler ist beim Speichern des Builds aufgetreten:\n{ex.Message}\n\nBitte prüfen Sie die Berechtigungen für die Ordner.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // 8. Build-ComboBox aktualisieren, damit der neue Build sofort sichtbar ist
+                LoadBuildsIntoBuildComboBox();
+            }
+        }
+
+        private void pb_folder_DoubleClick(object sender, EventArgs e)
+        {
+            // Prüfen, ob der Hauptordner überhaupt existiert
+            if (Directory.Exists(valheimCharFolderPath))
+            {
+                try
+                {
+                    // Öffne den Ordner im Explorer
+                    // Process.Start nimmt einen Pfad entgegen und öffnet ihn mit dem Standardprogramm,
+                    // das für diesen Dateityp (in diesem Fall ein Ordner) registriert ist, also dem Explorer.
+                    Process.Start(valheimCharFolderPath);
+                }
+                catch (Exception ex)
+                {
+                    // Fehlerbehandlung, falls das Öffnen fehlschlägt (z.B. keine Berechtigungen)
+                    MessageBox.Show($"Fehler beim Öffnen des Ordners:\n{ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // Informieren, falls der Ordner nicht gefunden wurde
+                MessageBox.Show($"Der angegebene Ordner wurde nicht gefunden:\n{valheimCharFolderPath}", "Ordner nicht gefunden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        
+        private void pb_folder_MouseHover(object sender, EventArgs e)
+        {
+            pb_folder.Cursor = Cursors.Hand;
+        }
+
+        private void pb_folder_MouseLeave_1(object sender, EventArgs e)
+        {
+            pb_folder.Cursor = Cursors.Default;
         }
     }
 }
