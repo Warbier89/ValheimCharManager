@@ -54,7 +54,7 @@ namespace ValheimCharManager
                 }
                 else
                 {
-                    MessageBox.Show("Keine passenden Charakterdateien (.fch ohne Unterstrich) im Ordner gefunden.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Keine passenden Charakterdateien (.fch ohne Unterstrich) im Ordner gefunden. Bitte lege im Spiel einen Lokalen Charakter an.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cb_mainChar.Enabled = false;
                 }
             }

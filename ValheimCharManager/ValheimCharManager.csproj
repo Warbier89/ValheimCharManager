@@ -79,8 +79,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="icons\" />
+    <Content Include="icons\6083_jabber_jabber_group_group.png" />
+    <Content Include="icons\valheim_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
