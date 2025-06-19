@@ -81,7 +81,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="icons\6083_jabber_jabber_group_group.png" />
+    <Content Include="icons\11203_arrow_down_green_linked_icon.png" />
+    <Content Include="icons\11332_edit_female_user_icon.png" />
+    <Content Include="icons\11398_search_users_icon.png" />
     <Content Include="icons\valheim_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

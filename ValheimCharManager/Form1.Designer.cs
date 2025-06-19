@@ -30,16 +30,22 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fr_main));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.gb_localChar = new System.Windows.Forms.GroupBox();
-            this.lb_mainChar = new System.Windows.Forms.Label();
-            this.cb_mainChar = new System.Windows.Forms.ComboBox();
             this.tc_builds = new System.Windows.Forms.TabControl();
             this.tp_chooseBuild = new System.Windows.Forms.TabPage();
+            this.bt_switchBuild = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.cb_chosseBuild = new System.Windows.Forms.ComboBox();
+            this.lb_chooseBuild = new System.Windows.Forms.Label();
             this.tp_createBuild = new System.Windows.Forms.TabPage();
+            this.gb_localChar = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lb_mainChar = new System.Windows.Forms.Label();
+            this.cb_mainChar = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
-            this.gb_localChar.SuspendLayout();
             this.tc_builds.SuspendLayout();
+            this.tp_chooseBuild.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.gb_localChar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,8 +57,87 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(440, 214);
+            this.panel1.Size = new System.Drawing.Size(350, 258);
             this.panel1.TabIndex = 0;
+            // 
+            // tc_builds
+            // 
+            this.tc_builds.Controls.Add(this.tp_chooseBuild);
+            this.tc_builds.Controls.Add(this.tp_createBuild);
+            this.tc_builds.Font = new System.Drawing.Font("OCR A Extended", 9.75F, System.Drawing.FontStyle.Bold);
+            this.tc_builds.Location = new System.Drawing.Point(12, 98);
+            this.tc_builds.Name = "tc_builds";
+            this.tc_builds.SelectedIndex = 0;
+            this.tc_builds.Size = new System.Drawing.Size(330, 148);
+            this.tc_builds.TabIndex = 1;
+            // 
+            // tp_chooseBuild
+            // 
+            this.tp_chooseBuild.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tp_chooseBuild.Controls.Add(this.bt_switchBuild);
+            this.tp_chooseBuild.Controls.Add(this.pictureBox2);
+            this.tp_chooseBuild.Controls.Add(this.cb_chosseBuild);
+            this.tp_chooseBuild.Controls.Add(this.lb_chooseBuild);
+            this.tp_chooseBuild.ForeColor = System.Drawing.Color.White;
+            this.tp_chooseBuild.Location = new System.Drawing.Point(4, 23);
+            this.tp_chooseBuild.Name = "tp_chooseBuild";
+            this.tp_chooseBuild.Padding = new System.Windows.Forms.Padding(3);
+            this.tp_chooseBuild.Size = new System.Drawing.Size(322, 121);
+            this.tp_chooseBuild.TabIndex = 0;
+            this.tp_chooseBuild.Text = "Choose Build";
+            // 
+            // bt_switchBuild
+            // 
+            this.bt_switchBuild.BackColor = System.Drawing.Color.DarkCyan;
+            this.bt_switchBuild.Image = ((System.Drawing.Image)(resources.GetObject("bt_switchBuild.Image")));
+            this.bt_switchBuild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.bt_switchBuild.Location = new System.Drawing.Point(63, 53);
+            this.bt_switchBuild.Name = "bt_switchBuild";
+            this.bt_switchBuild.Size = new System.Drawing.Size(214, 47);
+            this.bt_switchBuild.TabIndex = 4;
+            this.bt_switchBuild.Text = "Switch Build";
+            this.bt_switchBuild.UseVisualStyleBackColor = false;
+            this.bt_switchBuild.Click += new System.EventHandler(this.bt_switchBuild_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 3;
+            this.pictureBox2.TabStop = false;
+            // 
+            // cb_chosseBuild
+            // 
+            this.cb_chosseBuild.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_chosseBuild.FormattingEnabled = true;
+            this.cb_chosseBuild.Location = new System.Drawing.Point(44, 26);
+            this.cb_chosseBuild.Name = "cb_chosseBuild";
+            this.cb_chosseBuild.Size = new System.Drawing.Size(276, 21);
+            this.cb_chosseBuild.TabIndex = 3;
+            // 
+            // lb_chooseBuild
+            // 
+            this.lb_chooseBuild.AutoSize = true;
+            this.lb_chooseBuild.Location = new System.Drawing.Point(6, 3);
+            this.lb_chooseBuild.Name = "lb_chooseBuild";
+            this.lb_chooseBuild.Size = new System.Drawing.Size(160, 13);
+            this.lb_chooseBuild.TabIndex = 2;
+            this.lb_chooseBuild.Text = "Choose your Build";
+            // 
+            // tp_createBuild
+            // 
+            this.tp_createBuild.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.tp_createBuild.ForeColor = System.Drawing.Color.White;
+            this.tp_createBuild.Location = new System.Drawing.Point(4, 23);
+            this.tp_createBuild.Name = "tp_createBuild";
+            this.tp_createBuild.Padding = new System.Windows.Forms.Padding(3);
+            this.tp_createBuild.Size = new System.Drawing.Size(322, 121);
+            this.tp_createBuild.TabIndex = 1;
+            this.tp_createBuild.Text = "Create Build";
             // 
             // gb_localChar
             // 
@@ -63,10 +148,21 @@
             this.gb_localChar.ForeColor = System.Drawing.Color.White;
             this.gb_localChar.Location = new System.Drawing.Point(12, 12);
             this.gb_localChar.Name = "gb_localChar";
-            this.gb_localChar.Size = new System.Drawing.Size(416, 69);
+            this.gb_localChar.Size = new System.Drawing.Size(330, 80);
             this.gb_localChar.TabIndex = 0;
             this.gb_localChar.TabStop = false;
             this.gb_localChar.Text = "Local Charakter";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(10, 37);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
             // 
             // lb_mainChar
             // 
@@ -81,67 +177,27 @@
             // 
             this.cb_mainChar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_mainChar.FormattingEnabled = true;
-            this.cb_mainChar.Location = new System.Drawing.Point(10, 37);
+            this.cb_mainChar.Location = new System.Drawing.Point(48, 45);
             this.cb_mainChar.Name = "cb_mainChar";
             this.cb_mainChar.Size = new System.Drawing.Size(276, 21);
             this.cb_mainChar.TabIndex = 0;
-            // 
-            // tc_builds
-            // 
-            this.tc_builds.Controls.Add(this.tp_chooseBuild);
-            this.tc_builds.Controls.Add(this.tp_createBuild);
-            this.tc_builds.Font = new System.Drawing.Font("OCR A Extended", 9.75F, System.Drawing.FontStyle.Bold);
-            this.tc_builds.Location = new System.Drawing.Point(12, 87);
-            this.tc_builds.Name = "tc_builds";
-            this.tc_builds.SelectedIndex = 0;
-            this.tc_builds.Size = new System.Drawing.Size(416, 115);
-            this.tc_builds.TabIndex = 1;
-            // 
-            // tp_chooseBuild
-            // 
-            this.tp_chooseBuild.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.tp_chooseBuild.ForeColor = System.Drawing.Color.White;
-            this.tp_chooseBuild.Location = new System.Drawing.Point(4, 23);
-            this.tp_chooseBuild.Name = "tp_chooseBuild";
-            this.tp_chooseBuild.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_chooseBuild.Size = new System.Drawing.Size(408, 88);
-            this.tp_chooseBuild.TabIndex = 0;
-            this.tp_chooseBuild.Text = "Choose Build";
-            // 
-            // tp_createBuild
-            // 
-            this.tp_createBuild.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.tp_createBuild.ForeColor = System.Drawing.Color.White;
-            this.tp_createBuild.Location = new System.Drawing.Point(4, 23);
-            this.tp_createBuild.Name = "tp_createBuild";
-            this.tp_createBuild.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_createBuild.Size = new System.Drawing.Size(401, 88);
-            this.tp_createBuild.TabIndex = 1;
-            this.tp_createBuild.Text = "Create Build";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(373, 20);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(37, 38);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
             // 
             // fr_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 214);
+            this.ClientSize = new System.Drawing.Size(350, 258);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "fr_main";
             this.Text = "Valheim Charakter Mangaer";
             this.panel1.ResumeLayout(false);
+            this.tc_builds.ResumeLayout(false);
+            this.tp_chooseBuild.ResumeLayout(false);
+            this.tp_chooseBuild.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.gb_localChar.ResumeLayout(false);
             this.gb_localChar.PerformLayout();
-            this.tc_builds.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -157,6 +213,10 @@
         private System.Windows.Forms.TabPage tp_chooseBuild;
         private System.Windows.Forms.TabPage tp_createBuild;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lb_chooseBuild;
+        private System.Windows.Forms.ComboBox cb_chosseBuild;
+        private System.Windows.Forms.Button bt_switchBuild;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 
