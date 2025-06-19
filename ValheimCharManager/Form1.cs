@@ -61,13 +61,13 @@ namespace ValheimCharManager
                 }
                 else
                 {
-                    MessageBox.Show("Keine passenden Hauptcharakter-Dateien (.fch ohne Unterstrich) im Ordner gefunden.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No matching main character files (.fch without underscore) found in the folder.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cb_mainChar.Enabled = false;
                 }
             }
             else
             {
-                MessageBox.Show($"Der Valheim Charakter-Ordner wurde nicht gefunden:\n{valheimCharFolderPath}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"The Valheim character folder was not found:\n{valheimCharFolderPath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cb_mainChar.Enabled = false;
                 cb_chosseBuild.Enabled = false; // Auch die zweite ComboBox deaktivieren
             }
@@ -80,8 +80,8 @@ namespace ValheimCharManager
             {
                 // Der Ordner existiert nicht, Frage den Benutzer
                 DialogResult result = MessageBox.Show(
-                    $"Der Ordner 'builds' scheint noch nicht zu existieren ({valheimBuildsFolderPath}).\nWollen Sie diesen anlegen?",
-                    "Ordner erstellen?",
+                    $"The folder ‘builds’ does not seem to exist yet ({valheimBuildsFolderPath}).\nDo you want to create this?",
+                    "Create folder?",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
@@ -90,14 +90,14 @@ namespace ValheimCharManager
                     try
                     {
                         Directory.CreateDirectory(valheimBuildsFolderPath);
-                        MessageBox.Show($"Der Ordner '{valheimBuildsFolderPath}' wurde erfolgreich erstellt.", "Ordner erstellt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"The Folder '{valheimBuildsFolderPath}' was successfully created.", "Folder created", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // Nach dem Erstellen kann die ComboBox trotzdem noch leer sein,
                         // aber der Ordner ist jetzt da für zukünftige Builds.
                         cb_chosseBuild.Enabled = true; // Sicherstellen, dass sie wieder aktiv ist
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Fehler beim Erstellen des Ordners '{valheimBuildsFolderPath}':\n{ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Error when creating the folder '{valheimBuildsFolderPath}':\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         cb_chosseBuild.Enabled = false; // Bei Fehler deaktivieren
                         return; // Methode beenden
                     }
@@ -105,7 +105,7 @@ namespace ValheimCharManager
                 else
                 {
                     // Benutzer möchte den Ordner nicht erstellen
-                    MessageBox.Show("Der 'builds'-Ordner wurde nicht erstellt. Builds können nicht geladen oder gespeichert werden.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("The ‘builds’ folder was not created. Builds cannot be loaded or saved.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cb_chosseBuild.Enabled = false; // ComboBox deaktivieren
                     return; // Methode beenden
                 }
@@ -137,7 +137,7 @@ namespace ValheimCharManager
             {
                 // Diese Meldung erscheint nur, wenn der Ordner existiert, aber keine passenden Dateien enthält.
                 // Nicht, wenn der Ordner nicht existierte und der Benutzer ihn nicht erstellen wollte.
-                MessageBox.Show("Keine passenden Build-Charakterdateien (.fch mit Unterstrich) im 'builds'-Ordner gefunden.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No matching build character files (.fch with underscore) found in the ‘builds’ folder.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cb_chosseBuild.Enabled = false;
             }
         }
@@ -147,13 +147,13 @@ namespace ValheimCharManager
             // 1. Validierung: Prüfen, ob in beiden ComboBoxen etwas ausgewählt ist
             if (cb_mainChar.SelectedItem == null)
             {
-                MessageBox.Show("Bitte wählen Sie einen Hauptcharakter in der oberen Liste aus.", "Fehlende Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a main character from the list above.", "Lack of choice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (cb_chosseBuild.SelectedItem == null)
             {
-                MessageBox.Show("Bitte wählen Sie einen Build-Charakter in der unteren Liste aus.", "Fehlende Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a build character from the list below.", "Lack of choice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -169,20 +169,14 @@ namespace ValheimCharManager
             // Überprüfung, ob die Quelldateien existieren (sehr wichtig!)
             if (!File.Exists(mainCharFilePath))
             {
-                MessageBox.Show($"Die Hauptcharakter-Datei '{mainCharNameWithoutExtension}.fch' wurde nicht gefunden. Operation abgebrochen.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"The main character file '{mainCharNameWithoutExtension}.fch' was not found. Operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (!File.Exists(buildCharSourcePath))
             {
-                MessageBox.Show($"Die Build-Datei '{buildCharNameWithoutExtension}.fch' wurde nicht gefunden. Operation abgebrochen.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"The build file '{buildCharNameWithoutExtension}.fch' was not found. Operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            // ---- HIER WURDE DIE BESTÄTIGUNGSABFRAGE ENTFERNT ----
-            // Vorheriger Code war:
-            // DialogResult confirmResult = MessageBox.Show(...);
-            // if (confirmResult == DialogResult.Cancel) { ... return; }
-            // ----------------------------------------------------
 
             try
             {
@@ -195,11 +189,11 @@ namespace ValheimCharManager
                 // 6. Build-Charakter kopieren und umbenennen
                 File.Copy(buildCharSourcePath, buildCharTargetPath, true);
 
-                MessageBox.Show($"Der Build '{buildCharNameWithoutExtension}.fch' wurde erfolgreich als '{mainCharNameWithoutExtension}.fch' aktiviert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"The Build '{buildCharNameWithoutExtension}.fch' was successfully activated as '{mainCharNameWithoutExtension}.fch'!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ein Fehler ist beim Wechsel des Builds aufgetreten:\n{ex.Message}\n\nBitte prüfen Sie die Berechtigungen für die Ordner.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred when changing the build:\n{ex.Message}\n\nPlease check the permissions for the folders.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -239,7 +233,7 @@ namespace ValheimCharManager
             // 1. Validierung: Hauptcharakter ausgewählt?
             if (cb_mainChar.SelectedItem == null)
             {
-                MessageBox.Show("Bitte wählen Sie einen Hauptcharakter in der oberen Liste aus, dessen Build Sie speichern möchten.", "Fehlende Auswahl", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a main character in the list above whose build you would like to save.", "Lack of choice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -248,7 +242,7 @@ namespace ValheimCharManager
 
             if (string.IsNullOrWhiteSpace(newBuildNameWithoutExtension))
             {
-                MessageBox.Show("Bitte geben Sie einen Namen für den neuen Build ein.", "Fehlende Eingabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter a name for the new build.", "Missing input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -256,7 +250,7 @@ namespace ValheimCharManager
             char[] invalidChars = Path.GetInvalidFileNameChars();
             if (newBuildNameWithoutExtension.Any(c => invalidChars.Contains(c)))
             {
-                MessageBox.Show($"Der Build-Name enthält ungültige Zeichen. Bitte verwenden Sie keine der folgenden Zeichen: {string.Join("", invalidChars)}", "Ungültiger Dateiname", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"The build name contains invalid characters. Please do not use any of the following characters: {string.Join("", invalidChars)}", "Invalid file name", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -270,7 +264,7 @@ namespace ValheimCharManager
             // 4. Prüfen, ob die Quelldatei existiert
             if (!File.Exists(sourceFilePath))
             {
-                MessageBox.Show($"Die Hauptcharakter-Datei '{mainCharNameWithoutExtension}.fch' wurde im Hauptverzeichnis nicht gefunden. Speichern abgebrochen.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"The main character file '{mainCharNameWithoutExtension}.fch' was not found in the main directory. Save canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -279,7 +273,7 @@ namespace ValheimCharManager
             // Hier prüfen wir nur, ob er tatsächlich da ist, bevor wir versuchen zu speichern.
             if (!Directory.Exists(valheimBuildsFolderPath))
             {
-                MessageBox.Show("Der 'builds'-Ordner existiert nicht. Bitte erstellen Sie ihn zuerst (z.B. indem Sie die Anwendung neu starten und die Abfrage bestätigen).", "Ordner fehlt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The ‘builds’ folder does not exist. Please create it first (e.g. by restarting the application and confirming the prompt).", "Folder missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -287,14 +281,14 @@ namespace ValheimCharManager
             if (File.Exists(destinationFilePath))
             {
                 DialogResult overwriteResult = MessageBox.Show(
-                    $"Der Build mit dem Namen '{newBuildNameWithoutExtension}.fch' existiert bereits im 'builds'-Ordner.\nMöchten Sie ihn überschreiben?",
-                    "Build überschreiben?",
+                    $"The build with the name '{newBuildNameWithoutExtension}.fch' already exists in the ‘builds’ folder.\nWould you like to overwrite it?",
+                    "Overwrite build?",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
                 if (overwriteResult == DialogResult.No)
                 {
-                    MessageBox.Show("Speichern abgebrochen.", "Abgebrochen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Save canceled.", "Canceled", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
             }
@@ -305,11 +299,11 @@ namespace ValheimCharManager
                 // File.Copy(Quelle, Ziel, überschreiben?)
                 File.Copy(sourceFilePath, destinationFilePath, true); // true = Überschreiben erlauben
 
-                MessageBox.Show($"Der Build '{newBuildNameWithoutExtension}.fch' wurde erfolgreich im Ordner 'builds' gespeichert!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"The Build '{newBuildNameWithoutExtension}.fch' was successfully saved in the ‘builds’ folder!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ein Fehler ist beim Speichern des Builds aufgetreten:\n{ex.Message}\n\nBitte prüfen Sie die Berechtigungen für die Ordner.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred when saving the build:\n{ex.Message}\n\nPlease check the permissions for the folders.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -333,13 +327,13 @@ namespace ValheimCharManager
                 catch (Exception ex)
                 {
                     // Fehlerbehandlung, falls das Öffnen fehlschlägt (z.B. keine Berechtigungen)
-                    MessageBox.Show($"Fehler beim Öffnen des Ordners:\n{ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error when opening the folder:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
                 // Informieren, falls der Ordner nicht gefunden wurde
-                MessageBox.Show($"Der angegebene Ordner wurde nicht gefunden:\n{valheimCharFolderPath}", "Ordner nicht gefunden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"The specified folder was not found:\n{valheimCharFolderPath}", "Folder not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         
