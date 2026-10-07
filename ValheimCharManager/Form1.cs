@@ -19,6 +19,17 @@ namespace ValheimCharManager
         private string valheimCharFolderPath;// Basis-Pfad
         private string valheimBuildsFolderPath; // Pfad zum "builds" Unterordner
 
+        // Hilfsklasse für Einträge in der Build-ComboBox:
+        private class BuildItem
+        {
+            public string FileName { get; set; }   // z.B. "CharName_BuildName"
+            public string DisplayName { get; set; } // z.B. "BuildName" (ohne "CharName_")
+            public override string ToString()
+            {
+                return DisplayName;
+            }
+        }
+
         public fr_main()
         {
             InitializeComponent();
@@ -124,7 +135,10 @@ namespace ValheimCharManager
 
                     if (fileNameWithoutExtension.Contains("_"))
                     {
-                        cb_chosseBuild.Items.Add(fileNameWithoutExtension);
+                        string displayName = fileNameWithoutExtension.Contains("_")
+                            ? fileNameWithoutExtension.Substring(fileNameWithoutExtension.IndexOf('_') + 1)
+                            : fileNameWithoutExtension;
+                        cb_chosseBuild.Items.Add(new BuildItem { FileName = fileNameWithoutExtension, DisplayName = displayName });
                     }
                 }
             }
@@ -159,7 +173,15 @@ namespace ValheimCharManager
 
             // 2. Dateinamen abrufen (OHNE ENDUNG, da sie noch angehängt wird)
             string mainCharNameWithoutExtension = cb_mainChar.SelectedItem.ToString();
-            string buildCharNameWithoutExtension = cb_chosseBuild.SelectedItem.ToString();
+            string buildCharNameWithoutExtension;
+            if (cb_chosseBuild.SelectedItem is BuildItem bi)
+            {
+                buildCharNameWithoutExtension = bi.FileName;
+            }
+            else
+            {
+                buildCharNameWithoutExtension = cb_chosseBuild.SelectedItem.ToString();
+            }
 
             // 3. Vollständige Pfade erstellen (MIT ENDUNG)
             string mainCharFilePath = Path.Combine(valheimCharFolderPath, mainCharNameWithoutExtension + ".fch");
@@ -345,6 +367,11 @@ namespace ValheimCharManager
         private void pb_folder_MouseLeave_1(object sender, EventArgs e)
         {
             pb_folder.Cursor = Cursors.Default;
+        }
+
+        private void cb_chosseBuild_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

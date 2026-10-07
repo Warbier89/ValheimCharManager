@@ -37,24 +37,24 @@
             this.cb_chosseBuild = new System.Windows.Forms.ComboBox();
             this.lb_chooseBuild = new System.Windows.Forms.Label();
             this.tp_createBuild = new System.Windows.Forms.TabPage();
+            this.bt_saveBuild = new System.Windows.Forms.Button();
+            this.tb_buildName = new System.Windows.Forms.TextBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lb_defineBuild = new System.Windows.Forms.Label();
             this.gb_localChar = new System.Windows.Forms.GroupBox();
+            this.pb_folder = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lb_mainChar = new System.Windows.Forms.Label();
             this.cb_mainChar = new System.Windows.Forms.ComboBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.tb_buildName = new System.Windows.Forms.TextBox();
-            this.bt_saveBuild = new System.Windows.Forms.Button();
-            this.pb_folder = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.tc_builds.SuspendLayout();
             this.tp_chooseBuild.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tp_createBuild.SuspendLayout();
-            this.gb_localChar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.gb_localChar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_folder)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -126,6 +126,7 @@
             this.cb_chosseBuild.Name = "cb_chosseBuild";
             this.cb_chosseBuild.Size = new System.Drawing.Size(272, 21);
             this.cb_chosseBuild.TabIndex = 3;
+            this.cb_chosseBuild.SelectedIndexChanged += new System.EventHandler(this.cb_chosseBuild_SelectedIndexChanged);
             // 
             // lb_chooseBuild
             // 
@@ -151,6 +152,37 @@
             this.tp_createBuild.TabIndex = 1;
             this.tp_createBuild.Text = "Create Build";
             // 
+            // bt_saveBuild
+            // 
+            this.bt_saveBuild.BackColor = System.Drawing.Color.DarkCyan;
+            this.bt_saveBuild.Image = ((System.Drawing.Image)(resources.GetObject("bt_saveBuild.Image")));
+            this.bt_saveBuild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.bt_saveBuild.Location = new System.Drawing.Point(66, 55);
+            this.bt_saveBuild.Name = "bt_saveBuild";
+            this.bt_saveBuild.Size = new System.Drawing.Size(214, 47);
+            this.bt_saveBuild.TabIndex = 5;
+            this.bt_saveBuild.Text = "Save Build";
+            this.bt_saveBuild.UseVisualStyleBackColor = false;
+            this.bt_saveBuild.Click += new System.EventHandler(this.bt_saveBuild_Click);
+            // 
+            // tb_buildName
+            // 
+            this.tb_buildName.Location = new System.Drawing.Point(44, 23);
+            this.tb_buildName.Name = "tb_buildName";
+            this.tb_buildName.Size = new System.Drawing.Size(272, 21);
+            this.tb_buildName.TabIndex = 4;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 3;
+            this.pictureBox3.TabStop = false;
+            // 
             // lb_defineBuild
             // 
             this.lb_defineBuild.AutoSize = true;
@@ -174,6 +206,20 @@
             this.gb_localChar.TabIndex = 0;
             this.gb_localChar.TabStop = false;
             this.gb_localChar.Text = "Local Charakter";
+            // 
+            // pb_folder
+            // 
+            this.pb_folder.BackColor = System.Drawing.Color.Transparent;
+            this.pb_folder.Image = ((System.Drawing.Image)(resources.GetObject("pb_folder.Image")));
+            this.pb_folder.Location = new System.Drawing.Point(295, 8);
+            this.pb_folder.Name = "pb_folder";
+            this.pb_folder.Size = new System.Drawing.Size(32, 32);
+            this.pb_folder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb_folder.TabIndex = 3;
+            this.pb_folder.TabStop = false;
+            this.pb_folder.DoubleClick += new System.EventHandler(this.pb_folder_DoubleClick);
+            this.pb_folder.MouseLeave += new System.EventHandler(this.pb_folder_MouseLeave_1);
+            this.pb_folder.MouseHover += new System.EventHandler(this.pb_folder_MouseHover);
             // 
             // pictureBox1
             // 
@@ -205,51 +251,6 @@
             this.cb_mainChar.TabIndex = 0;
             this.cb_mainChar.SelectedIndexChanged += new System.EventHandler(this.cb_mainChar_SelectedIndexChanged);
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(6, 19);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 3;
-            this.pictureBox3.TabStop = false;
-            // 
-            // tb_buildName
-            // 
-            this.tb_buildName.Location = new System.Drawing.Point(44, 23);
-            this.tb_buildName.Name = "tb_buildName";
-            this.tb_buildName.Size = new System.Drawing.Size(272, 21);
-            this.tb_buildName.TabIndex = 4;
-            // 
-            // bt_saveBuild
-            // 
-            this.bt_saveBuild.BackColor = System.Drawing.Color.DarkCyan;
-            this.bt_saveBuild.Image = ((System.Drawing.Image)(resources.GetObject("bt_saveBuild.Image")));
-            this.bt_saveBuild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.bt_saveBuild.Location = new System.Drawing.Point(66, 55);
-            this.bt_saveBuild.Name = "bt_saveBuild";
-            this.bt_saveBuild.Size = new System.Drawing.Size(214, 47);
-            this.bt_saveBuild.TabIndex = 5;
-            this.bt_saveBuild.Text = "Save Build";
-            this.bt_saveBuild.UseVisualStyleBackColor = false;
-            this.bt_saveBuild.Click += new System.EventHandler(this.bt_saveBuild_Click);
-            // 
-            // pb_folder
-            // 
-            this.pb_folder.BackColor = System.Drawing.Color.Transparent;
-            this.pb_folder.Image = ((System.Drawing.Image)(resources.GetObject("pb_folder.Image")));
-            this.pb_folder.Location = new System.Drawing.Point(295, 8);
-            this.pb_folder.Name = "pb_folder";
-            this.pb_folder.Size = new System.Drawing.Size(32, 32);
-            this.pb_folder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pb_folder.TabIndex = 3;
-            this.pb_folder.TabStop = false;
-            this.pb_folder.DoubleClick += new System.EventHandler(this.pb_folder_DoubleClick);
-            this.pb_folder.MouseLeave += new System.EventHandler(this.pb_folder_MouseLeave_1);
-            this.pb_folder.MouseHover += new System.EventHandler(this.pb_folder_MouseHover);
-            // 
             // fr_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -268,11 +269,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tp_createBuild.ResumeLayout(false);
             this.tp_createBuild.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.gb_localChar.ResumeLayout(false);
             this.gb_localChar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_folder)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
